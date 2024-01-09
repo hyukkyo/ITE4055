@@ -1,2 +1,0 @@
-https://www.kaggle.com/code/andrescastroitm/fish-classification-with-pytorch-image-models/notebook
-https://www.kaggle.com/code/abubakaryagob/fish-classification-with-pytorch-resnet/notebook
