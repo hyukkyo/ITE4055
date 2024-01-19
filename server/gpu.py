@@ -1,13 +1,19 @@
 import torch
 
-# GPU 사용 가능 -> True, GPU 사용 불가 -> False
-# print(torch.cuda.is_available())
+# CUDA 지원 여부 확인
+if torch.cuda.is_available():
+    # 현재 사용 가능한 GPU의 개수 확인
+    gpu_count = torch.cuda.device_count()
+    print(f"사용 가능한 GPU 수: {gpu_count}")
 
-# GPU 사용 가능 -> 가장 빠른 번호 GPU, GPU 사용 불가 -> CPU 자동 지정 예시
-# device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
+    # 각 GPU의 정보 출력
+    for i in range(gpu_count):
+        gpu_info = torch.cuda.get_device_properties(i)
+        print(f"GPU {i + 1}: {gpu_info.name}, Compute Capability: {gpu_info.major}.{gpu_info.minor}")
 
-# GPU 이름 체크(cuda:0에 연결된 그래픽 카드 기준)
-# print(torch.cuda.get_device_name(), device = 0) # 'NVIDIA TITAN X (Pascal)'
+    # 현재 선택된 GPU 확인
+    current_gpu = torch.cuda.current_device()
+    print(f"\n현재 선택된 GPU: {current_gpu}")
 
-# 사용 가능 GPU 개수 체크
-# print(torch.cuda.device_count()) # 3
+else:
+    print("CUDA 지원 GPU가 없습니다. CPU 모드로 진행합니다.")

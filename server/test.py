@@ -15,21 +15,29 @@ from tqdm import tqdm
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from pathlib import Path
 
+import gc
+
 # set background color to white
 matplotlib.rcParams['figure.facecolor'] = '#ffffff'
 
 # set default figure size
 matplotlib.rcParams['figure.figsize'] = (15, 7)
 
-DATA_DIR = '../input/a-large-scale-fish-dataset/Fish_Dataset/Fish_Dataset'
+
+gc.collect()
+torch.cuda.empty_cache()
+
+
+# DATA_DIR = r'../a-large-scale-fish-dataset/Fish_Dataset/Fish_Dataset'
+DATA_DIR = r'C:\Users\hyukkyo\ITE4055\server\a-large-scale-fish-dataset'
 
 # Get filepaths and labels
 image_dir = Path(DATA_DIR)
 filepaths = list(image_dir.glob(r'**/*.png'))
 labels = list(map(lambda x: os.path.split(os.path.split(x)[0])[1], filepaths))
 
-filepaths = pd.Series(filepaths, name='Filepath').astype(str)
-labels = pd.Series(labels, name='Label')
+filepaths = pd.Series(filepaths, name='Filepath').astype(str) # DeprecationWarning
+labels = pd.Series(labels, name='Label') # Warning 발생
 
 # Concatenate filepaths and labels
 image_df = pd.concat([filepaths, labels], axis=1)
@@ -38,8 +46,8 @@ image_df = pd.concat([filepaths, labels], axis=1)
 image_df['Label'] = image_df['Label'].apply(lambda x: x.replace(" GT", ""))
 
 # count plot for each class
-sns.countplot(x='Label', data=image_df).set(title='Count of different image classes')
-plt.show()
+# sns.countplot(x='Label', data=image_df).set(title='Count of different image classes')
+# plt.show()
 
 # the images are already augumented so no need to do any transforms
 trans = transforms.Compose([transforms.Resize([128, 128]), # resize to a smaller size to avoid CUDA running out of memory
@@ -60,14 +68,12 @@ print(f"total number of test images: {test_size}")
 train_set, test_set = random_split(images, (train_size, test_size))
 
 # show a single image
-def show_image(img, label, dataset):
-    plt.imshow(img.permute(1, 2, 0))
-    plt.axis('off')
-    plt.title(dataset.classes[label])
+# def show_image(img, label, dataset):
+#     plt.imshow(img.permute(1, 2, 0))
+#     plt.axis('off')
+#     plt.title(dataset.classes[label])
 
 # show_image(*train_set[7], train_set.dataset)
-    
-show_image(*train_set[101], train_set.dataset)
 
 # create data loaders
 batch_size = 64 # larger numbers lead to CUDA running out of memory
@@ -75,12 +81,12 @@ train_dl = DataLoader(train_set, batch_size=batch_size)
 test_dl = DataLoader(test_set, batch_size=batch_size)
 
 # visualize a batch of images
-def show_batch(dl):
-    for images, labels in dl:
-        fig, ax = plt.subplots(figsize=(20, 8))
-        ax.set_xticks([]); ax.set_yticks([])
-        ax.imshow(make_grid(images, nrow=16).permute(1, 2, 0))
-        break
+# def show_batch(dl):
+#     for images, labels in dl:
+#         fig, ax = plt.subplots(figsize=(20, 8))
+#         ax.set_xticks([]); ax.set_yticks([])
+#         ax.imshow(make_grid(images, nrow=16).permute(1, 2, 0))
+#         break
 
 # convlutional block with batchnorm and max pooling
 def conv_block(in_channels, out_channels, pool=False):
@@ -119,6 +125,7 @@ class FishResNet(nn.Module):
         out = self.classifier(out)
         return out
         
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') # choose device accordingly
 model = FishResNet(3, 9).to(device) # 3 color channels and 9 output classes
 criterion = nn.CrossEntropyLoss()
@@ -157,10 +164,10 @@ for epoch in range(epochs):
     losses.append(epoch_loss)
 
 # plot losses
-sns.set_style("dark")
-sns.lineplot(data=losses).set(title="loss change during training", xlabel="epoch", ylabel="loss")
+# sns.set_style("dark")
+# sns.lineplot(data=losses).set(title="loss change during training", xlabel="epoch", ylabel="loss")
 # plt.show()
-
+    
 # predict on testing data samples (the accuracy here is batch accuracy)
 y_pred_list = []
 y_true_list = []
@@ -183,28 +190,8 @@ for i in range(len(y_pred_list)):
         flat_pred.append(y_pred_list[i][j])
         flat_true.append(y_true_list[i][j])
         
-# print(f"number of testing samples results: {len(flat_pred)}")
-        
+print(f"number of testing samples results: {len(flat_pred)}")
+
 # calculate total testing accuracy
 print(f"Testing accuracy is: {accuracy_score(flat_true, flat_pred) * 100:.2f}%")
 
-# Display 15 random picture of the dataset with their labels
-inds = np.random.randint(len(test_set), size=15)
-fig, axes = plt.subplots(nrows=3, ncols=5, figsize=(15, 7),
-                        subplot_kw={'xticks': [], 'yticks': []})
-
-for i, ax in zip(inds, axes.flat):
-    img, label = test_set[i]
-    ax.imshow(img.permute(1, 2, 0))
-    ax.set_title(f"True: {test_set.dataset.classes[label]}\nPredicted: {test_set.dataset.classes[flat_pred[i]]}")
-plt.tight_layout()
-plt.show()
-
-# classification report
-print(classification_report(flat_true, flat_pred, target_names=images.classes))
-
-# plot confusion matrix
-idx2class = {v: k for k, v in images.class_to_idx.items()}
-confusion_matrix_df = pd.DataFrame(confusion_matrix(flat_true, flat_pred)).rename(columns=idx2class, index=idx2class)
-sns.heatmap(confusion_matrix_df, annot=True, fmt='').set(title="confusion matrix", xlabel="Predicted Label", ylabel="True Label")
-plt.show()
