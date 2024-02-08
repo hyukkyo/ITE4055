@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:camera_practice/camera_page.dart';
 import 'package:image_picker/image_picker.dart';
+import 'gallery.dart';
 import 'dart:io';
 
 class HomePage extends StatefulWidget {
@@ -72,7 +73,10 @@ class _HomePageState extends State<HomePage> {
                               iconSize: 30,
                               icon: const Icon(Icons.photo_outlined, color: Colors.white),
                               onPressed: () {
-                                _openGallery();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const Gallery()),
+                                );
                               },
                             ),
                           ),
