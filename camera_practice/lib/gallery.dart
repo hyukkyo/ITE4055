@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -17,14 +18,16 @@ class _GalleryState extends State<Gallery> {
 
   void _uploadImage() async{
     if (_image != null){
-      var uri = Uri.parse('http://221.146.69.102:5000');
+      var uri = Uri.parse('http://221.146.69.102:5000/predict');
       var request = http.MultipartRequest('POST', uri);
-      request.files.add(await http.MultipartFile.fromPath(('image'), _image!.path));
+      request.files.add(await http.MultipartFile.fromPath('image', _image!.path.toString()));
 
       var response = await request.send();
 
       if(response.statusCode == 200){
-        print('UPLOAD SUCCESS');
+        String species = await response.stream.bytesToString();
+
+        print('species: $species');
       }
       else{
         print('UPLOAD FAILED');
@@ -33,7 +36,6 @@ class _GalleryState extends State<Gallery> {
     else{
       print('NO IMAGE SELECTED');
     }
-
   }
 
   Future getImage(ImageSource imageSource) async{
@@ -77,3 +79,28 @@ class _GalleryState extends State<Gallery> {
     );
   }
 }
+//
+// void _uploadImage() async{
+//   XFile? image;
+//   final ImagePicker picker = ImagePicker();
+//
+//   if (image != null){
+//     var uri = Uri.parse('http://221.146.69.102:5000/predict');
+//     var request = http.MultipartRequest('POST', uri);
+//     request.files.add(await http.MultipartFile.fromPath('image', image!.path.toString()));
+//
+//     var response = await request.send();
+//
+//     if(response.statusCode == 200){
+//       String species = await response.stream.bytesToString();
+//
+//       print('species: $species');
+//     }
+//     else{
+//       print('UPLOAD FAILED');
+//     }
+//   }
+//   else{
+//     print('NO IMAGE SELECTED');
+//   }
+// }
