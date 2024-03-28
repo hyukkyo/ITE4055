@@ -1,4 +1,5 @@
-import 'package:camera_practice/home_page.dart';
+import 'package:camera_practice/login_page.dart';
+import 'package:camera_practice/view/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => const HomePage(),
+          builder: (_) => const LoginPage(),
       ));
     });
 
