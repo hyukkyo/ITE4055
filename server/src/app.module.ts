@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
-import { ImagesController } from './images/images.controller';
-import { ImagesService } from './images/images.service';
-import { ImagesModule } from './images/images.module';
-import { AppController } from './app/app.controller';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { AuthModule } from './auth/auth.module';
+import { ImageModule } from './image/image.module';
+import { UserService } from './user/user.service';
+import { UserModule } from './user/user.module';
+import { ImageModule } from './image/image.module';
 
 @Module({
-  imports: [ImagesModule],
-  controllers: [ImagesController, AppController],
-  providers: [ImagesService],
+  imports: [AuthenticationModule, AuthModule, ImageModule, UserModule],
+  controllers: [AppController],
+  providers: [AppService, UserService],
 })
 export class AppModule {}
