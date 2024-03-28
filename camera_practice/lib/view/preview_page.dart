@@ -22,7 +22,7 @@ class PreviewPage extends StatelessWidget {
           ElevatedButton(onPressed: (){
             _uploadImage(picture.path);
           },
-              child: Text('Upload'))
+              child: Text('Upload', style: TextStyle(color: Colors.lightBlueAccent)))
         ]),
       ),
     );

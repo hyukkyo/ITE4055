@@ -1,11 +1,11 @@
 import 'package:camera/camera.dart';
 import 'package:camera_practice/friend_page.dart';
 import 'package:flutter/material.dart';
-import 'package:camera_practice/camera_page.dart';
+import 'package:camera_practice/model/camera_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'encyclopedia_page.dart';
-import 'gallery.dart';
+import '../model/gallery.dart';
 import 'dart:io';
 
 class HomePage extends StatefulWidget {
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Fish Classification",
+        title: const Text("어종 탐색기",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Colors.lightBlue,
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                             MaterialPageRoute(builder: (_) => CameraPage(cameras: value))));
                       },
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.lightBlueAccent,
+                          backgroundColor: Colors.lightBlueAccent,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0))),
                       child: Transform.scale(
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                             // Add your logic for Button 2 here
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                             );
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.lightBlueAccent,
+                        backgroundColor: Colors.lightBlueAccent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                     child: ElevatedButton(
                       onPressed: _openSite,
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.lightBlueAccent,
+                        backgroundColor: Colors.lightBlueAccent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),

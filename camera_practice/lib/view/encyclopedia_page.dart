@@ -32,7 +32,7 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
                         child: ElevatedButton(
                           onPressed: () async {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                           ),
                           child: Transform.scale(
                             scale: 0.8,
@@ -52,7 +52,7 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
                         child: ElevatedButton(
                           onPressed: () async {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                           ),
                           child: Transform.scale(
                             scale: 0.8,
@@ -72,7 +72,7 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
                         child: ElevatedButton(
                           onPressed: () async {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                           ),
                           child: Transform.scale(
                             scale: 0.8,
@@ -97,7 +97,7 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
                         child: ElevatedButton(
                           onPressed: () async {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                           ),
                           child: Transform.scale(
                             scale: 0.8,
@@ -117,7 +117,7 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
                         child: ElevatedButton(
                           onPressed: () async {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                           ),
                           child: Transform.scale(
                             scale: 0.8,
@@ -137,7 +137,7 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
                         child: ElevatedButton(
                           onPressed: () async {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                           ),
                           child: Transform.scale(
                             scale: 0.8,
@@ -162,7 +162,7 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
                         child: ElevatedButton(
                           onPressed: () async {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                           ),
                           child: Transform.scale(
                             scale: 0.8,
@@ -182,7 +182,7 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
                         child: ElevatedButton(
                           onPressed: () async {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                           ),
                           child: Transform.scale(
                             scale: 0.8,
@@ -202,7 +202,7 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
                         child: ElevatedButton(
                           onPressed: () async {},
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.lightBlueAccent,
+                            backgroundColor: Colors.lightBlueAccent,
                           ),
                           child: Transform.scale(
                             scale: 0.8,

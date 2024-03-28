@@ -18,7 +18,7 @@ class _GalleryState extends State<Gallery> {
 
   void _uploadImage() async{
     if (_image != null){
-      var uri = Uri.parse('http://221.146.69.102:5000/predict');
+      var uri = Uri.parse('http://218.39.215.36:5000/predict');
       var request = http.MultipartRequest('POST', uri);
       request.files.add(await http.MultipartFile.fromPath('image', _image!.path.toString()));
 
@@ -26,7 +26,6 @@ class _GalleryState extends State<Gallery> {
 
       if(response.statusCode == 200){
         String species = await response.stream.bytesToString();
-
         print('species: $species');
       }
       else{
@@ -50,7 +49,7 @@ class _GalleryState extends State<Gallery> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Image')),
+      // appBar: AppBar(title: const Text('Image')),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -61,7 +60,7 @@ class _GalleryState extends State<Gallery> {
                 decoration: BoxDecoration(
                   border: Border.all(),
                 ),
-                padding: const EdgeInsets.all(8.0),
+                // padding: const EdgeInsets.all(8.0),
                 child: Image.file(
                   File(_image!.path),
                   width: 200,
@@ -69,9 +68,10 @@ class _GalleryState extends State<Gallery> {
                   fit: BoxFit.cover,
                 ),
               ),
-            ElevatedButton(onPressed: () => getImage(ImageSource.gallery), child: Text('Select Image')),
+            //이거 빼기
+            ElevatedButton(onPressed: () => getImage(ImageSource.gallery), child: Text('Select Image', style: TextStyle(color: Colors.lightBlueAccent))),
             if (_image != null)
-              ElevatedButton(onPressed: _uploadImage, child: Text('UPLOAD'),
+              ElevatedButton(onPressed: _uploadImage, child: Text('UPLOAD', style: TextStyle(color: Colors.lightBlueAccent)),
               ),
           ],
         ),
@@ -79,28 +79,3 @@ class _GalleryState extends State<Gallery> {
     );
   }
 }
-//
-// void _uploadImage() async{
-//   XFile? image;
-//   final ImagePicker picker = ImagePicker();
-//
-//   if (image != null){
-//     var uri = Uri.parse('http://221.146.69.102:5000/predict');
-//     var request = http.MultipartRequest('POST', uri);
-//     request.files.add(await http.MultipartFile.fromPath('image', image!.path.toString()));
-//
-//     var response = await request.send();
-//
-//     if(response.statusCode == 200){
-//       String species = await response.stream.bytesToString();
-//
-//       print('species: $species');
-//     }
-//     else{
-//       print('UPLOAD FAILED');
-//     }
-//   }
-//   else{
-//     print('NO IMAGE SELECTED');
-//   }
-// }

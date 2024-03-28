@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class FriendPage extends StatefulWidget {
   const FriendPage({super.key});
 
