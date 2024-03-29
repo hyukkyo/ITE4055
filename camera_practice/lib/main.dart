@@ -1,4 +1,4 @@
-import 'package:camera_practice/controller/splash_screen.dart';
+import 'package:camera_practice/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 import 'package:camera_practice/view/home_page.dart';

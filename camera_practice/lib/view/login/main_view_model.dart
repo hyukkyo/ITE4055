@@ -1,4 +1,5 @@
-import 'package:camera_practice/social_login.dart';
+
+import 'package:camera_practice/view/login/social_login.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 class MainViewModel{
