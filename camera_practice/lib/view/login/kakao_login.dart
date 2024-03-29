@@ -1,6 +1,6 @@
-import 'package:camera_practice/social_login.dart';
+import 'package:camera_practice/view/login/social_login.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:camera_practice/login_page.dart';
+import 'package:camera_practice/view/login/login_page.dart';
 
 class KakaoTalkLogin implements SocialLogin{
   @override
