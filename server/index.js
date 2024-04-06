@@ -87,7 +87,42 @@ app.post("/login", (req, res) => {
   });
 });
 
-// app.post("/image/");
+app.post("/upload", (req, res) => {
+  const { usercode, url, category } = req.body;
+
+  const query = `INSERT INTO images (usercode, url, category) VALUES (?, ?, ?)`;
+  // usercode 유효성 판별, 카테고리 유효성 판별이 필요함
+
+  db.query(query, [usercode, url, category], (err, results) => {
+    if (err) {
+      console.error("DB저장 오류: " + error);
+      res.status(500).send("DB저장 오류");
+      return;
+    }
+    console.log("이미지 등록완료");
+    res.status(200).send("이미지 등록완료");
+  });
+});
+
+app.get("/download/:category", (req, res) => {
+  const { usercode } = req.body;
+  const category = req.params.category;
+
+  const query = `SELECT url FROM images WHERE usercode = ? AND category = ?`;
+  db.query(query, [usercode, category], (err, results, fields) => {
+    if (err) {
+      return res.status(500).json({ message: "Internal server error" });
+    }
+    // 결과값이 없으면
+    if (results.length === 0) {
+      return res
+        .status(401)
+        .json({ message: "결과값이 없습니다. 도감을 채워주세요." });
+    }
+    const urls = results.map((result) => result.url);
+    return res.status(200).json(urls);
+  });
+});
 
 // 서버 시작
 app.listen(port, () => {
