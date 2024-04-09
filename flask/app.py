@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # 모델 로드
 model = cnn.CNN(3, 9)  # 예제에서는 input_dim이 3 (RGB 이미지)이고 output_dim이 9로 가정
-model.load_state_dict(torch.load(r'C:\Users\hyukkyo\ITE4055\server\fish_classifier.pth', map_location='cpu'))
+model.load_state_dict(torch.load(r'C:\Users\hyukkyo\repo\ITE4055\flask\fish_classifier.pth', map_location='cpu'))
 model.eval()
 
 fish_species = [
@@ -15,7 +15,7 @@ fish_species = [
     "Glit-Head Bream",
     "Hourse Mackerel",
     "Red Mullet",
-    "Red Sea Bream"
+    "Red Sea Bream",
     "Sea Bass",
     "Shrimp",
     "Striped Red Mullet",
@@ -47,14 +47,18 @@ def predict():
         # 결과 반환
         probabilities = torch.nn.functional.softmax(output, dim=1).numpy()[0]
         predicted_class = int(torch.argmax(output))
+        print(predicted_class)
+        print(fish_species[predicted_class])
 
         result = {
             'species': fish_species[predicted_class],
             # 'probabilities': probabilities.tolist()
         }
+        print(result)
         return jsonify(result)
 
     except Exception as e:
+        print(e)
         return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
