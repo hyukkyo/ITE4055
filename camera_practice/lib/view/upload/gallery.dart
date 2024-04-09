@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:aws_s3_upload/aws_s3_upload.dart';
 
 class Gallery extends StatefulWidget {
   const Gallery({super.key});
@@ -16,7 +17,7 @@ class _GalleryState extends State<Gallery> {
   XFile? _image;
   final ImagePicker picker = ImagePicker();
 
-  void _uploadImage() async{
+  _uploadImage() async{
     if (_image != null){
       var uri = Uri.parse('http://218.39.215.36:5000/predict');
       var request = http.MultipartRequest('POST', uri);
@@ -27,6 +28,7 @@ class _GalleryState extends State<Gallery> {
       if(response.statusCode == 200){
         String species = await response.stream.bytesToString();
         print('species: $species');
+        return species;
       }
       else{
         print('UPLOAD FAILED');
@@ -48,6 +50,8 @@ class _GalleryState extends State<Gallery> {
 
   @override
   Widget build(BuildContext context) {
+    var _text = '';
+
     return Scaffold(
       // appBar: AppBar(title: const Text('Image')),
       body: Center(
@@ -68,11 +72,42 @@ class _GalleryState extends State<Gallery> {
                   fit: BoxFit.cover,
                 ),
               ),
+
+            Text(
+              _text,
+
+            ),
             //이거 빼기
             ElevatedButton(onPressed: () => getImage(ImageSource.gallery), child: Text('Select Image', style: TextStyle(color: Colors.lightBlueAccent))),
             if (_image != null)
-              ElevatedButton(onPressed: _uploadImage, child: Text('UPLOAD', style: TextStyle(color: Colors.lightBlueAccent)),
-              ),
+              Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _text = _uploadImage();
+                      });
+                    },
+                    child: Text('UPLOAD', style: TextStyle(color: Colors.lightBlueAccent)),
+                  ),
+                  ElevatedButton(onPressed: () {
+                    setState(() {
+                      AwsS3.uploadFile(
+                          accessKey: "AKxxxxxxxxxxxxx",
+                          secretKey: "xxxxxxxxxxxxxxxxxxxxxxxxxx",
+                          file: File(_image!.path),
+                          bucket: "fishdex",
+                          region: "ap-northeast-2",
+                          // metadata: {"test": "test"} // optional
+                      );
+                      
+                    });
+                  },
+                    child: Text('도감에 저장', style: TextStyle(color: Colors.lightBlueAccent)),
+
+                  )
+                ],
+              )
           ],
         ),
       ),

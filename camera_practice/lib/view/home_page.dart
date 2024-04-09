@@ -1,13 +1,17 @@
 import 'package:camera/camera.dart';
+import 'package:camera_practice/view/login/kakao_login.dart';
 import 'package:camera_practice/view/login/main_view_model.dart';
 import 'package:camera_practice/view/upload/camera_page.dart';
 import 'package:camera_practice/view/upload/gallery.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'encyclopedia_page.dart';
+import 'package:camera_practice/view/login/login_page.dart';
+import 'package:camera_practice/view/login/social_login.dart';
 import 'dart:io';
 
 class HomePage extends StatefulWidget {
@@ -16,15 +20,36 @@ class HomePage extends StatefulWidget {
 
   @override
   State<HomePage> createState() => _HomePageState();
+
 }
 
 class _HomePageState extends State<HomePage> {
+  // final viewModel = MainViewModel(KakaoTalkLogin());
 
-  String? nickname;
+  String nickname = '';
 
+  getuser() async{
+    try{
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      Map<String, dynamic> allPrefs = {for (var key in prefs.getKeys()) key: prefs.get(key)};
+      String? username = prefs.getString('username');
+      print("ㅇㅋㅇㅋㅇㅋㅇㅋㅇㅋㅇㅋㅇㅋㅇ");
+      print(allPrefs);
+      print("Nickname: $username");
+      return username;
+    }
+    catch(e){
+      print(e);
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
+
+  nickname = getuser().toString();
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -32,8 +57,9 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("전설의 낚시꾼"),
-              Text("${nickname}님 반갑습니다"),
-              Text("이미지를 업로드해주세요"),
+              // Text('$nickname님 반갑습니다'),
+              Text(nickname.isNotEmpty ? '$nickname님 반갑습니다' : "게스트님 반갑습니다"),
+              Text("이미지를 업로드해주세요\n\n"),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -150,3 +176,32 @@ void _openGallery() async{
     XFile(image.path);
   }
 }
+
+// get_user_info() async{
+//   try{
+//     User user = await UserApi.instance.me();
+//     print(user.kakaoAccount?.profile?.nickname);
+//     return user.kakaoAccount?.profile?.nickname;
+//   }
+//   catch(e){
+//     print("사용자 정보 요청 실패");
+//   }
+// }
+
+// Future<String?> getuser() async {
+//   try{
+//     final SharedPreferences prefs = await SharedPreferences.getInstance();
+//     Map<String, dynamic> allPrefs = {for (var key in prefs.getKeys()) key: prefs.get(key)};
+//     String? nickname = prefs.getString('nickname');
+//     print("ㅇㅋㅇㅋㅇㅋㅇㅋㅇㅋㅇㅋㅇㅋㅇ");
+//     print(allPrefs);
+//     print("Nickname: $nickname");
+//     return nickname;
+//
+//   }
+//   catch(e){
+//     print(e);
+//     return null;
+//   }
+// }
+

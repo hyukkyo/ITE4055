@@ -1,6 +1,8 @@
 import 'package:camera_practice/splash_screen.dart';
+import 'package:camera_practice/view/encyclopedia_page.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
+// import 'package:kakao_flutter';
 import 'package:camera_practice/view/home_page.dart';
 
 //model - data and business logic of the application
@@ -16,6 +18,7 @@ Future<void> main() async{
     javaScriptAppKey: '620f2c74e75cc0175258b32ada316ed9'
   );
 
+
   runApp(const MyApp());
 }
 
@@ -27,6 +30,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Flutter Camera Demo',
       debugShowCheckedModeBanner: false,
+      // home: SplashScreen(),
       home: SplashScreen(),
     );
   }

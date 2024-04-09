@@ -28,7 +28,7 @@ class PreviewPage extends StatelessWidget {
     );
   }
   void _uploadImage(String imagePath) async{
-    var uri = Uri.parse('http://221.146.69.102:5000/predict');
+    var uri = Uri.parse('http://218.39.215.36:5000/predict');
     var request = http.MultipartRequest('POST', uri);
     request.files.add(await http.MultipartFile.fromPath('image', imagePath));
 
