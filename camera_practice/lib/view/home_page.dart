@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
 
-  nickname = getuser().toString();
+  getuser();
 
     return Scaffold(
       body: SafeArea(
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Text("전설의 낚시꾼"),
               // Text('$nickname님 반갑습니다'),
-              Text(nickname.isNotEmpty ? '$nickname님 반갑습니다' : "게스트님 반갑습니다"),
+              // Text(nickname.isNotEmpty ? '$nickname님 반갑습니다' : "게스트님 반갑습니다"),
               Text("이미지를 업로드해주세요\n\n"),
 
               Row(
