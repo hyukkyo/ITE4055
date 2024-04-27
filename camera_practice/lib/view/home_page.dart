@@ -25,30 +25,35 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // final viewModel = MainViewModel(KakaoTalkLogin());
+  String _username = '';
 
-  String nickname = '';
+  @override
+  void initState() {
+    super.initState();
+    print('이닛스테이트 호출됨');
+    getUser();
+  }
 
-  getuser() async{
-    try{
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      Map<String, dynamic> allPrefs = {for (var key in prefs.getKeys()) key: prefs.get(key)};
-      String? username = prefs.getString('username');
-      print("ㅇㅋㅇㅋㅇㅋㅇㅋㅇㅋㅇㅋㅇㅋㅇ");
-      print(allPrefs);
-      print("Nickname: $username");
-      return username;
+  Future<void> getUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    if (username != null) {
+      setState(() {
+        _username = username;
+      });
     }
-    catch(e){
-      print(e);
-      return null;
-    }
+    print(username);
+  }
+
+  Future<void> Logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('username');
+    prefs.remove('usercode');
   }
 
   @override
   Widget build(BuildContext context) {
 
-
-  getuser();
 
     return Scaffold(
       body: SafeArea(
@@ -57,8 +62,19 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("전설의 낚시꾼"),
-              // Text('$nickname님 반갑습니다'),
+              Text('$_username님 반갑습니다'),
               // Text(nickname.isNotEmpty ? '$nickname님 반갑습니다' : "게스트님 반갑습니다"),
+              // FutureBuilder(
+              //     future: getUser(),
+              //     builder: (context, AsyncSnapshot<String> username) {
+              //       if(username.hasData) {
+              //         return Text('${username.data!}님 반갑습니다');
+              //       } else if (username.hasError) {
+              //         return Text('Error: ${username.error}');
+              //       }
+              //       return CircularProgressIndicator();
+              //     }
+              // ),
               Text("이미지를 업로드해주세요\n\n"),
 
               Row(
@@ -142,6 +158,33 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
+              const SizedBox(height: 20.0),
+              SizedBox(
+                width: 320,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Logout();
+                    // shared preferences에 저장된 정보들 삭제
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                          (route) => false,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightBlueAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  child: Transform.scale(
+                    scale: 0.8,
+                    child: Text('로그아웃')
+                  ),
+                ),
+              ),
             ],
           ),
         ),
