@@ -14,17 +14,6 @@ import 'main_view_model.dart';
 import 'package:http/http.dart' as http;
 
 
-// Future<String?> _get_username() async {
-//
-//   try {
-//     User user = await UserApi.instance.me();
-//     return user.kakaoAccount?.profile?.nickname;
-//
-//   } catch (error) {
-//     print('사용자 정보 요청 실패 $error');
-//   }
-// }
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -34,53 +23,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  @override
-  void initState() {
-    super.initState();
-    // _checkAutoLogin();
-  }
-
-  // Future<void> _checkAutoLogin() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool alreadyLoggedIn = prefs.getString('username') != null;
-  //   if(alreadyLoggedIn == true){
-  //     Navigator.pushReplacement(context,
-  //         MaterialPageRoute(builder: (_) => HomePage()));
-  //   }
-  // }
-
-  // Future<void> user_log() async{
-  //   try{
-  //     User user = await UserApi.instance.me();
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     if(user.id != null && user.kakaoAccount?.profile?.nickname != null) {
-  //       await prefs.setString('usercode',
-  //           user.id.toString());
-  //       await prefs.setString('username',
-  //           (user.kakaoAccount?.profile?.nickname).toString());
-  //     }
-  //     String? value = prefs.getString('username');
-  //     print("user_log");
-  //     print(value);
-  //   }
-  //   catch(e) {
-  //     print("사용자 정보 저장 실패 $e");
-  //   }
-  // }
-
-  // void _get_user_info() async {
-  //
-  //   try {
-  //     User user = await UserApi.instance.me();
-  //     print('사용자 정보 요청 성공'
-  //         '\n회원번호: ${user.id}'
-  //         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}');
-  //
-  //   } catch (error) {
-  //     print('사용자 정보 요청 실패 $error');
-  //   }
-  // }
-  //
   Future<String?> loginUser() async {
     try{
       User user = await UserApi.instance.me();
@@ -90,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
           'username': user.kakaoAccount?.profile?.nickname,
           'usercode': user.id.toString(),
         },
+
       );
       print('리스폰스');
       print(response.body);
@@ -99,10 +42,17 @@ class _LoginPageState extends State<LoginPage> {
         final String token = responseData['token'];
 
         final SharedPreferences prefs = await SharedPreferences.getInstance();
+        String un = user.kakaoAccount?.profile?.nickname ?? '';
         prefs.setString('token', token);
+        prefs.setString('username', un);
+        prefs.setString('usercode', user.id.toString());
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => HomePage()));
 
         return token;
+
       }
+
       else{
         throw Exception('로그인 실패');
       }
@@ -116,15 +66,6 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> signInWithKakao() async {
     // print(await KakaoSdk.origin);
-    // User user = await UserApi.instance.me();
-    // bool alreadyLogined = user.kakaoAccount?.profile?.nickname != null;
-    // print("어딨냐고요");
-    // print(alreadyLogined);
-    // user_log(user.id, user.kakaoAccount?.profile?.nickname);
-
-
-    // print(await UserApi.instance.me());
-    // _get_user_info();
 
     // 카카오 로그인 구현 예제
 
@@ -134,8 +75,6 @@ class _LoginPageState extends State<LoginPage> {
       try {
         await UserApi.instance.loginWithKakaoTalk();
         print('카카오톡으로 로그인 성공');
-        // _get_user_info();
-        // user_log();
         loginUser();
       } catch (error) {
         print('카카오톡으로 로그인 실패 $error');
@@ -149,7 +88,6 @@ class _LoginPageState extends State<LoginPage> {
         try {
           await UserApi.instance.loginWithKakaoAccount();
           print('카카오계정으로 로그인 성공');
-          // user_log();
           loginUser();
         } catch (error) {
           print('카카오계정으로 로그인 실패 $error');
@@ -159,7 +97,6 @@ class _LoginPageState extends State<LoginPage> {
       try {
         await UserApi.instance.loginWithKakaoAccount();
         print('카카오계정으로 로그인 성공');
-        // user_log();
         loginUser();
       } catch (error) {
         print('카카오계정으로 로그인 실패 $error');
@@ -183,8 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                         // await viewModel.login();
                         // setState(() {});
                         signInWithKakao();
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (_) => HomePage()));
+
                       },
                       child: Image.asset(
                       'lib/icons/kakao_login_medium_wide.png'
