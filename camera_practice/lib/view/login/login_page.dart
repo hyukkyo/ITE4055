@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:camera_practice/view/home_page.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:camera_practice/view/login/social_login.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../home_page.dart';
 import 'kakao_login.dart';
 import 'main_view_model.dart';
 import 'package:http/http.dart' as http;
@@ -113,7 +112,36 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('fishdex'), // 로고 들어가야함
+                Text(
+                  'fishdex', // 텍스트 내용
+                  style: TextStyle(
+                    fontSize: 40, // 폰트 크기 설정
+                    fontFamily: 'Roboto', // 사용할 폰트 설정
+                    fontWeight: FontWeight.bold, // 폰트 굵기 설정
+                    fontStyle: FontStyle.italic, // 폰트 스타일 설정
+                    color: Colors.black, // 텍스트 색상 설정
+                  ),
+                ),
+                Container(
+                  width: 130, // 이미지의 너비를 200으로 설정
+                  height: 130, // 이미지의 높이를 200으로 설정
+                  child: Image.asset(
+                    'lib/icons/fishing.png', // 이미지 경로
+                    fit: BoxFit.cover, // 이미지를 화면에 맞게 늘리고 자르기
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                Text(
+                  '당신만의 물고기 도감을 만들어보세요!', // 텍스트 내용
+                  style: TextStyle(
+                    fontSize: 18, // 폰트 크기 설정
+                    fontFamily: 'Roboto', // 사용할 폰트 설정
+                    fontWeight: FontWeight.bold, // 폰트 굵기 설정
+                    // fontStyle: FontStyle.italic, // 폰트 스타일 설정
+                    color: Colors.black54, // 텍스트 색상 설정
+                  ),
+                ),
+                SizedBox(height: 20.0),
                 SizedBox(
                   child: GestureDetector(
                       onTap: () async {

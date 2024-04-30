@@ -1,9 +1,6 @@
-import 'package:camera_practice/splash_screen.dart';
-import 'package:camera_practice/view/encyclopedia_page.dart';
+import 'package:fishdex/view/login/auto_login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
-// import 'package:kakao_flutter';
-import 'package:camera_practice/view/home_page.dart';
 
 //model - data and business logic of the application
 //view - UI components that the user interacts with
@@ -27,11 +24,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Flutter Camera Demo',
       debugShowCheckedModeBanner: false,
       // home: SplashScreen(),
-      home: SplashScreen(),
+      home: AutoLoginScreen(),
     );
   }
 }

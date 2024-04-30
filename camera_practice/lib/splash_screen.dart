@@ -1,5 +1,4 @@
-import 'package:camera_practice/view/login/login_page.dart';
-import 'package:camera_practice/view/home_page.dart';
+import 'package:fishdex/view/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

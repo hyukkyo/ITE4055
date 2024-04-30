@@ -25,7 +25,19 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('도감'),
+          backgroundColor: Colors.lightBlueAccent,
+          title: Text(
+            '도감', // 텍스트 내용
+            style: TextStyle(
+              fontSize: 30, // 폰트 크기 설정
+              fontFamily: 'Roboto', // 사용할 폰트 설정
+              fontWeight: FontWeight.bold, // 폰트 굵기 설정
+              fontStyle: FontStyle.italic, // 폰트 스타일 설정
+              color: Colors.black, // 텍스트 색상 설정
+            ),
+          ),
+          centerTitle: true,
+          automaticallyImplyLeading: false
       ),
       body:
           GridView.count(
@@ -35,7 +47,7 @@ class _EncyclopediaPageState extends State<EncyclopediaPage> {
             children: List<Widget>.generate(9, (index) {
               // String img = 'lib/fish/fish1.png';
               return Container(
-                color: Colors.lightBlueAccent,
+                color: Colors.black12,
                 padding: const EdgeInsets.all(20),
                 margin: const EdgeInsets.all(5),
                 child: Column(
