@@ -66,50 +66,19 @@ app.post("/login", (req, res) => {
   });
 });
 
-// 로그인 엔드포인트
-// app.post("/login", (req, res) => {
-//   const { username, usercode } = req.body;
-//   if (!username || !usercode) {
-//     return res
-//       .status(400)
-//       .json({ message: "사용자명과 회원번호를 입력해주세요." });
-//   }
-
-//   // MySQL에서 사용자 정보 조회
-//   const query = `SELECT * FROM users WHERE usercode = ?`;
-//   db.query(query, [username, usercode], (err, results) => {
-//     if (err) {
-//       return res.status(500).json({ message: "Internal server error" });
-//     }
-
-//     // 결과값이 없으면
-//     if (results.length === 0) {
-//       return res.status(401).json({ message: "Invalid username or usercode" });
-//     }
-
-//     // 로그인 성공 후 JWT 발급
-//     const token = jwt.sign({ usercode }, "your_secret_key", {
-//       expiresIn: "1h",
-//     });
-
-//     return res.status(200).json({ message: "로그인 완료", token });
-//   });
-// });
-
 app.post("/upload", (req, res) => {
   const { usercode, url, category } = req.body;
 
-  const query = `INSERT INTO images (usercode, url, category) VALUES (?, ?, ?)`;
+  const insertQuery = `INSERT INTO images (usercode, url, category) VALUES (?, ?, ?)`;
   // usercode 유효성 판별, 카테고리 유효성 판별이 필요함
 
-  db.query(query, [usercode, url, category], (err, results) => {
+  db.query(insertQuery, [usercode, url, category], (err, results) => {
     if (err) {
-      console.error("DB저장 오류: " + error);
-      res.status(500).send("DB저장 오류");
-      return;
+      console.log(err);
+      return res.status(500).json({ message: "Internal server error" });
     }
-    console.log("이미지 등록완료");
-    res.status(200).send("이미지 등록완료");
+    console.log("이미지 등록 완료");
+    return res.status(200).json({ message: "이미지 등록 완료" });
   });
 });
 
