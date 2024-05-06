@@ -27,23 +27,31 @@ class _HomePageState extends State<HomePage> {
   // final viewModel = MainViewModel(KakaoTalkLogin());
   // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _username = '';
+  String _mainTitle = '';
+  String _mainBadgeImagePath = 'lib/icons/fishing.png';
 
   @override
   void initState() {
     super.initState();
     print('initState 호출됨');
-    getUser();
+    getUserData();
   }
 
-  Future<void> getUser() async {
+  Future<void> getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
+    String? mainTitle = prefs.getString('mainTitle');
+    String? mainBadge = prefs.getString('mainBadge');
     if (username != null) {
       setState(() {
         _username = username;
+        _mainTitle = mainTitle!;
+        _mainBadgeImagePath = mainBadge!;
       });
     }
     print(username);
+    print(mainTitle);
+    print(mainBadge);
   }
 
 
@@ -115,7 +123,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '전설의 어부', // 텍스트 내용
+                '$_mainTitle', // 텍스트 내용
                 style: TextStyle(
                   fontSize: 24, // 폰트 크기 설정
                   fontFamily: 'Roboto', // 사용할 폰트 설정
@@ -129,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                 width: 150, // 이미지의 너비를 200으로 설정
                 height: 150, // 이미지의 높이를 200으로 설정
                 child: Image.asset(
-                  'lib/collection/trophy.png', // 이미지 경로
+                  '$_mainBadgeImagePath', // 이미지 경로
                   fit: BoxFit.cover, // 이미지를 화면에 맞게 늘리고 자르기
                 ),
               ),
